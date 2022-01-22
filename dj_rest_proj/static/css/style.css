@@ -1,0 +1,32 @@
+body{
+    font-family: sans-serif;
+    background-color: #1F7D63;
+}
+
+form{
+    color: #d9f7f5;
+}
+
+.navbar{
+    background-color: #34D0B6;
+}
+
+.btn-primary{
+    background-color: #BF5930;
+}
+
+a,h1,h2,h3,h4,.media-heading{
+    color:	#d9f7f5;
+}
+
+.card{
+    background-color: #00A480;
+}
+
+.btn{
+    background-color: #BF5930;
+}
+
+.form-control{
+    max-width: 800px;
+}

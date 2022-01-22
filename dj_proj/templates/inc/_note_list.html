@@ -1,0 +1,37 @@
+{% for note in notes %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-4">
+                <div class="card-header">
+                    {% for cat in note.category.all %}
+                    <a href="{% url 'blog:category' cat_id=cat.pk %}">{{ cat }}</a>
+                    {% endfor %}
+                </div>
+                <div class="card-body">
+                    <div class="media">
+                        <div class="media-left">
+                            {% if note.img %}
+                            <img src="{{ note.img.url }}" style="float:left" class="mr-3" hspace="10"
+                                 width="100px">
+                            {% else %}
+                            <img src="/media/resources/logo.png"
+                                 style="float:left" class="mr-3" width="100px" hspace="10" vspace="15"
+                                 alt="Без изображения">
+                            {% endif %}
+                        </div>
+                        <div class="media-body ml-5">
+                            <h5 class="media-heading"><a href="{{ note.get_absolute_url }}">{{ note.title }}</a></h5>
+                            <p class="card-text">{{ note.txt|truncatechars:50 }}</p>
+                            <a href="{{ note.get_absolute_url }}" class="btn btn-primary">Просмотр</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'blog:user_notes' user_id=note.author_id%}">{{ note.author }}</a> | {{ note.date|date:"Y-m-d" }}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+        <h2>Записи не найдены</h2>
+    {% endfor %}

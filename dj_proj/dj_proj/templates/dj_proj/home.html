@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Главная страница
+{% endblock %}
+
+{% block body %}
+<p>Пожалуйста, перейдите в приложение:</p>
+<a href="{% url 'blog:home' %}">Блоги</a>
+{% endblock %}

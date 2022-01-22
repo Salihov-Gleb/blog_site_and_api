@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid mt-3">
+    <h1>{{ title }}</h1>
+    <br>
+    {% include 'inc/_dropdown.html' %}
+    <hr>
+    <br>
+    {% include 'inc/_note_list.html' %}
+</div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Все записи
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid mt-3">
+    <h1 class="main-title">Все записи</h1>
+    <br>
+    <div class="container">
+        <div class="row"></div>
+    </div>
+</div>
+
+<script>
+    const getJSON = (url, callback) => {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.responseType = 'json';
+        xhr.onload = function() {
+            let status = xhr.status;
+            if (status === 200) {
+                callback(null, xhr.response);
+            } else {
+                callback(status, xhr.response);
+            }
+        };
+        xhr.send();
+    };
+
+
+
+    const drawPosts = (status, array) => {
+        if (status != null) {
+            console.log('Произошла ошибка!')
+        } else {
+            for (let post in array) {
+                createSinglePost(array[post])
+            }
+        }
+    }
+
+    const createSinglePost = post => {
+        let row = document.querySelector('.row');
+        var blogURL = "{% url 'blog:note' id=1 %}".split('1')[0]
+        var categoryURL = "{% url 'blog:category' cat_id=1 %}".split('1')[0]
+        var userURL = "{% url 'blog:user_notes' user_id=1 %}".split('1')[0]
+        row.innerHTML += '<div class="col">'+
+            '<div class="card">'+
+            '<div class="card__content">'+
+            `<a href="${blogURL}${post.id}" class="card__title">${post.title}</a>`+
+            `<a href="${categoryURL}${post.category[0].id}" class="card__category">${post.category[0].title}</a>`+
+            `<div class="card__description">${post.txt.length > 50 ? post.txt.substr(0, 50) + "..." : post.txt}</div>`+
+            '</div>'+
+            '<div class="card__info">'+
+            `<a href="${userURL}${post.author.id}" class="card__author">${post.author.username}</a>`+
+            `<div class="card__date">${post.update_date}</div>`+
+            '</div>'+
+            '</div>'+
+            '</div>'
+    }
+
+    getJSON('/api/v1/list/?format=json', drawPosts)
+</script>
+{% endblock %}

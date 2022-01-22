@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <div class="article"></div>
+</div>
+
+<script>
+    const getJSON = (url, callback) => {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.responseType = 'json';
+        xhr.onload = function () {
+            let status = xhr.status;
+            if (status === 200) {
+                callback(null, xhr.response);
+            } else {
+                callback(status, xhr.response);
+            }
+        };
+        xhr.send();
+    };
+
+    const drawPost = (status, currentPost) => {
+        if (status != null) {
+            console.log('Произошла ошибка!')
+        } else {
+            let article = document.querySelector('.article');
+            let headTitle = document.querySelector('.head-title');
+            var categoryURL = "{% url 'blog:category' cat_id=1 %}".split('1')[0]
+            var userURL = "{% url 'blog:user_notes' user_id=1 %}".split('1')[0]
+            if (currentPost == undefined) {
+                article.innerHTML = "Ничего не найдено";
+            } else {
+                article.innerHTML = `
+                <div class="article__title">${currentPost.title}</div>
+                <a href="${categoryURL}${currentPost.category[0].id}" class="article__category">${currentPost.category[0].title}</a>
+                <div class="article__text">${currentPost.txt}</div>
+                <div class="article__info">
+                    <a href="${userURL}${currentPost.author.id}" class="article__author">${currentPost.author.username}</a>
+                    <div class="article__date">${currentPost.update_date}</div>
+                </div>
+                `;
+                headTitle.innerHTML = `${currentPost.title}`;
+            }
+        }
+    }
+
+    getJSON('/api/v1/blog/{{ id }}/?format=json', drawPost)
+</script>
+
+{% endblock %}

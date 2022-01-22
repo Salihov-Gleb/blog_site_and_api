@@ -1,0 +1,42 @@
+version: '3.7'
+
+services:
+
+  postgresdb:
+    image: postgres:13
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    env_file:
+      - ./conf/postrgres.env
+
+  rest_api:
+    build: ./dj_rest_proj
+    container_name: rest_api
+    env_file:
+      - ./conf/app.env
+    volumes:
+      - ./:/dj_rest_proj
+    ports:
+      - "8001:8001"
+    depends_on:
+      - postgresdb
+
+  django:
+    build: ./dj_proj
+    container_name: django
+    volumes:
+      - ./:/dj_proj
+    ports:
+      - "8000:8000"
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - django
+
+volumes:
+  postgres_data:
+  static_data:

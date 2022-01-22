@@ -1,0 +1,23 @@
+<div class="container-fluid">
+    <div class="row row-cols-3" id="blogCards">
+    {% for note in notes %}
+        <div class="col-4">
+            <div class="card" style="margin: 10px; padding: 10px;">
+                {% if note.img %}
+                <img src="{{ note.img.url }}" style="float:left" class="mr-3" hspace="10"
+                     width="100px">
+                {% else %}
+                <img src="/media/resources/logo.png"
+                     style="float:left" class="mr-3" width="100px" hspace="10" vspace="15"
+                     alt="Без изображения">
+                {% endif %}
+                <div class="card-body"><a href="{{ note.get_absolute_url }}">{{ note.title }}</a>
+                   <h5 class="card-title"></h5>
+                   <p class="card-text">{{ note.txt|truncatechars:50 }}</p>
+                   <a href="{{ note.get_absolute_url }}" class="btn btn-primary">Просмотр</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+</div>

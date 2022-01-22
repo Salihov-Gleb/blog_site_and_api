@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Добавление категории
+{% endblock %}
+
+{% block body %}
+
+<div class="container-fluid mt-3">
+    <h1>Добавление категории</h1>
+    <hr>
+    <form action="{% url 'blog:add_category' %}" method="post">
+        {% csrf_token %}
+        {{ form.non_field.errors }}
+        <div class="mb-3">
+            {{ form.title.label_tag }}
+            {{ form.title }}
+            <div class="invalid-feedback">
+              {{ atr.errors }}
+            </div>
+        </div>
+        <hr>
+        <button type="submit" class="btn btn-primary">Добавить</button>
+    </form>
+</div>
+{% endblock %}
